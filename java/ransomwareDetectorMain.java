@@ -102,7 +102,9 @@ public class ransomwareDetectorMain extends JFrame{
             command.clear();
 
             // We build the command that we will execute with the selected files names
-            command.add("python3");
+            String home = System.getProperty("user.home");
+            String binDirectory = home + "/.venv/bin/python3"; // INSERT THE LOCATION OF YOUR PYTHON3 BINARY HERE
+            command.add(binDirectory);
             command.add("python/5.modelPredictor.py");
             for (File file : files) {
                 command.add(file.getAbsolutePath());
@@ -129,6 +131,7 @@ public class ransomwareDetectorMain extends JFrame{
             // We execute the command using the ProcessBuilder class
             Process process = processBuilder.start();
             BufferedReader in = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            BufferedReader err = new BufferedReader(new InputStreamReader(process.getErrorStream()));
 
             // We read the output of the process, and we split every line to delete the file's absolute path
             // from the line
@@ -141,6 +144,15 @@ public class ransomwareDetectorMain extends JFrame{
                     ransomwareNames.add(line.split(" ")[0].substring(1, line.split(" ")[0].length() - 1));
                 }
             }
+
+            // UNCOMMENT THIS SECTION TO SHOW ERRORS IF THE APPLICATION DOESN'T WORK
+            //-------------------------------------------------
+            /*
+            while ((line = err.readLine()) != null) {
+                builder.append(line).append("\n");
+            }
+            */
+            //-------------------------------------------------
 
             // If some ransomwares were detected, we show the option to delete them
             if (!ransomwareNames.isEmpty()) {

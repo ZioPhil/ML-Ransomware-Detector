@@ -2,7 +2,7 @@ import sys
 import pefile
 import numpy as np
 from capstone import *
-from tensorflow.python.keras.models import Sequential
+from tensorflow.keras.models import Sequential
 from tensorflow.python.keras import layers
 
 # Recovering the model, as we did in 4.modelTester.py
@@ -14,6 +14,7 @@ model.add(layers.Dense(64, activation='relu'))
 model.add(layers.Dense(32, activation='relu'))
 model.add(layers.Dense(16, activation='relu'))
 model.add(layers.Dense(2, activation='softmax'))
+model.build(input_shape=(1, 50))
 # If you execute the java program the working directory is not "python" but the parent directory
 # If you want to execute this file alone, you will have to remove "python" from the path below
 model.load_weights("python/weights/weights-405-1.00.hdf5")
@@ -116,7 +117,7 @@ def prediction(paths):
         if vector[0][0] == 422.00:
             predictions[path] = "fileNotValid"
         else:
-            predictions[path] = classes[np.argmax(model.predict(x=vector))]
+            predictions[path] = classes[np.argmax(model.predict(x=vector, verbose=0))]
 
     return predictions
 

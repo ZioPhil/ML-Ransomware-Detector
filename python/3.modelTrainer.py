@@ -1,11 +1,11 @@
 import os
 import math
 import numpy as np
-from tensorflow.python.keras.models import Sequential
-from tensorflow.python.keras import layers
-from tensorflow.python.keras.callbacks import ModelCheckpoint
-from tensorflow.python.keras.utils.data_utils import Sequence
-from tensorflow.python.keras.utils.np_utils import to_categorical
+from tensorflow.keras.models import Sequential
+from tensorflow.keras import layers
+from tensorflow.keras.callbacks import ModelCheckpoint
+from tensorflow.keras.utils import Sequence
+from tensorflow.keras.utils import to_categorical
 from sklearn.utils import shuffle
 
 # This code generates the final model that will be used in the application, using the vectors
@@ -106,6 +106,7 @@ model.add(layers.Dense(32, activation='relu'))
 model.add(layers.Dense(16, activation='relu'))
 # In the final layer, we apply the softmax function to the results to generate a probability for the 2 classes
 model.add(layers.Dense(2, activation='softmax'))
+model.build(input_shape=(1, 50))
 
 # We apply the rmsprop optimization algorithm to the model
 model.compile(optimizer="rmsprop", loss='categorical_crossentropy', metrics=['accuracy'])

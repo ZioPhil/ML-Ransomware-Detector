@@ -1,10 +1,10 @@
 import os
 import math
 import numpy as np
-from tensorflow.python.keras.models import Sequential
+from tensorflow.keras.models import Sequential
 from tensorflow.python.keras import layers
-from tensorflow.python.keras.utils.data_utils import Sequence
-from tensorflow.python.keras.utils.np_utils import to_categorical
+from tensorflow.keras.utils import Sequence
+from tensorflow.keras.utils import to_categorical
 from sklearn.utils import shuffle
 
 # This code tests the model accuracy
@@ -60,6 +60,7 @@ model.add(layers.Dense(64, activation='relu'))
 model.add(layers.Dense(32, activation='relu'))
 model.add(layers.Dense(16, activation='relu'))
 model.add(layers.Dense(2, activation='softmax'))
+model.build(input_shape=(1, 50))
 
 # We load the weights that led to the best validation accuracy during training
 model.load_weights("weights/weights-405-1.00.hdf5")
